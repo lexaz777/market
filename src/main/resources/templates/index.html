@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+<body>
+
+<div th:replace="~{navigation :: navi(Home)}" />
+
+<div class="container">
+    <h1>Welcome page</h1>
+
+    <div sec:authorize="isAuthenticated()">
+        Authenticated username:
+        <div sec:authentication="principal.username"></div>
+        Authenticated user roles:
+        <div sec:authentication="principal.authorities"></div>
+    </div>
+
+    <!--<div sec:authorize access="hasAnyRole('ADMIN', 'USER')">-->
+    <div sec:authorize="hasRole('ADMIN')">
+        This content will only be visible to users who have the "supervisor" authority in their list of <tt>GrantedAuthority</tt>s.
+    </div>
+
+    <table class="table-bordered table-hover">
+        <thead>
+        <tr>
+            <th th:text="id">ID</th>
+            <th th:text="title">title</th>
+            <th th:text="description">description</th>
+            <th th:text="price">price</th>
+            <th th:text="photo">photo</th>
+            <th th:text="category">category</th>
+            <th th:text="vendor">vendor</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${productList}">
+            <td th:text="${product.id}">productId</td>
+            <td th:text="${product.title}">productTitle</td>
+            <td th:text="${product.description}">description</td>
+            <td th:text="${product.price}">price</td>
+            <td th:text="${product.photoId}">photo</td>
+            <td th:text="${product.category.title}">category</td>
+            <td th:text="${product.vendorId}">vendor</td>
+            <td>
+                <a href="scans.html"
+                   th:href="@{/cart/add(id = ${product.id})}">buy</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
