@@ -55,14 +55,14 @@ VALUES
 (1, 3);
 
 CREATE TABLE `categories` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NULL,
   `description` VARCHAR(45) NULL,
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `product` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NULL,
   `description` VARCHAR(45) NULL,
   `price` INT NULL,
