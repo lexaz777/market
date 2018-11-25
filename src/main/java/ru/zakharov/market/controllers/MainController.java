@@ -42,3 +42,4 @@ public class MainController {
         return "forward:/resources/favicon.ico";
     }
 }
+
