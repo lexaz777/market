@@ -7,25 +7,52 @@ import java.util.List;
 
 public class Cart {
     private List<CartItem> cartItems;
-
+    private int totalPrice;
 
     public Cart() {
         this.cartItems = new ArrayList<>();
     }
 
     public void addToCart(Product product) {
-        cartItems.add(new CartItem(product, 1));
+        int quantity = 0;
+        CartItem cartItem = new CartItem(product);
+        int index = cartItems.indexOf(cartItem);
+        if (index != -1)
+            quantity = cartItems.get(index).getQuantity();
+        if (quantity >= 1)
+            cartItems.get(index).addOneProduct();
+        else
+            cartItems.add(cartItem);
+        refreshTotalPrice();
     }
 
     public void removeFromCart(Product product) {
-        cartItems.remove(new CartItem(product, 1));
+        int quantity = 0;
+        CartItem cartItem = new CartItem(product);
+        int index = cartItems.indexOf(cartItem);
+        if (index != -1)
+            quantity = cartItems.get(index).getQuantity();
+        if (quantity > 1)
+            cartItems.get(index).removeOneProduct();
+        else
+            cartItems.remove(cartItem);
+        refreshTotalPrice();
     }
 
     public List<CartItem> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
+    public int getTotalPrice() {
+        return totalPrice;
     }
+
+    private void refreshTotalPrice() {
+        totalPrice = 0;
+        for (CartItem cartItem : cartItems) {
+            totalPrice += cartItem.getSubtotal();
+        }
+    }
+
+
 }

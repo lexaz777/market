@@ -61,4 +61,21 @@ public class CartController {
         } else
             return "index";
     }
+
+    @RequestMapping("/remove")
+    public String removeFromCart(@RequestParam int id, Model model,
+                                 @ModelAttribute("shoppingCart") Cart cart) {
+        model.addAttribute("search", new ProductSearch());
+        Optional<Product> product = productService.getProductById(id);
+        if (product.isPresent()) {
+            cart.removeFromCart(product.get());
+            if (!cart.getCartItems().isEmpty()) {
+                model.addAttribute("shoppingCart", cart);
+            } else {
+                model.addAttribute("shoppingCart", new Cart());
+            }
+            return "redirect:/cart/list";
+        } else
+            return "index";
+    }
 }
