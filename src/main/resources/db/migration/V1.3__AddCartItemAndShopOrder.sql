@@ -1,0 +1,22 @@
+  CREATE TABLE `shop_order` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `address` VARCHAR(45) NULL,
+  `payway` VARCHAR(45) NULL,
+  `user_id` INT NOT NULL,
+  `status_id` INT,
+  PRIMARY KEY (`id`),
+  CONSTRAINT FK_USER FOREIGN KEY (user_id) REFERENCES `market`.`user`(id)
+)ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `market`.`cart_item` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `product_id` INT NOT NULL,
+  `quantity` INT NULL,
+  `subtotal` INT NULL,
+  `shop_order_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT FK_SHOPORDER FOREIGN KEY(shop_order_id) REFERENCES shop_order(id)
+  ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT FK_PRODUCT FOREIGN KEY(product_id) REFERENCES product(id)
+  ON DELETE NO ACTION ON UPDATE NO ACTION
+)ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;

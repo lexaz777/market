@@ -30,7 +30,8 @@
             <input type="text" class="form-control" th:field="*{price}" placeholder="price"/>
         </div>
         <div class="input-group">
-            <input type="text" class="form-control" th:field="*{photoId}" placeholder="photoId"/>
+            <img th:src="@{'/img/' + ${product.photoName}}" style="width:240px; height:240px;">
+            <input type="hidden" class="form-control" th:field="*{photoName}" placeholder="photoName"/>
         </div>
         <div class="input-group">
             <select th:field="*{category}" class="form-control" id="category" name="category"
@@ -43,9 +44,19 @@
         <div class="input-group">
             <input type="text" class="form-control" th:field="*{vendorId}" placeholder="vendorId"/>
         </div>
+        <div>
+        </div>
         <div class="input-group">
             <button name="saveProduct" type="submit" class="btn btn-primary">Save product</button>
         </div>
+    </form>
+
+    <form method="POST" enctype="multipart/form-data" th:action="@{/admin/products/uploadFile}">
+        <table>
+            <input type="hidden" th:value="${product.id}" th:name="id">
+            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+        </table>
     </form>
 </div>
 </body>

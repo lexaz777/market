@@ -1,11 +1,28 @@
-package ru.zakharov.market.utils;
+package ru.zakharov.market.entities;
 
-import ru.zakharov.market.entities.Product;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "cart_item")
 public class CartItem {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @OneToOne
+    @JoinColumn(name = "product_id")
     private Product product;
+
+    @Column(name = "quantity")
     private int quantity;
+
+    @Column(name = "subtotal")
     private int subtotal;
+
+    @ManyToOne
+    @JoinColumn(name = "shop_order_id")
+    private ShopOrder shopOrder;
 
     public CartItem(Product product, int quantity) {
         this.product = product;
@@ -19,12 +36,23 @@ public class CartItem {
         refreshSubtotal();
     }
 
+    public CartItem() {
+    }
+
     public Product getProduct() {
         return product;
     }
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getQuantity() {
@@ -47,6 +75,14 @@ public class CartItem {
 
     public void refreshSubtotal() {
         subtotal = product.getPrice() * quantity;
+    }
+
+    public ShopOrder getShopOrder() {
+        return shopOrder;
+    }
+
+    public void setShopOrder(ShopOrder shopOrder) {
+        this.shopOrder = shopOrder;
     }
 
     @Override

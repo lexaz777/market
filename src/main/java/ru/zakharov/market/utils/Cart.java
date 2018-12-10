@@ -1,5 +1,6 @@
 package ru.zakharov.market.utils;
 
+import ru.zakharov.market.entities.CartItem;
 import ru.zakharov.market.entities.Product;
 
 import java.util.ArrayList;

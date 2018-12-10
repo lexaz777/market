@@ -20,8 +20,8 @@ public class Product {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "photo_id")
-    private int photoId;
+    @Column(name = "photo_name")
+    private String photoName;
 
     @Column(name = "vendor_id")
     private int vendorId;
@@ -64,12 +64,12 @@ public class Product {
         this.price = price;
     }
 
-    public int getPhotoId() {
-        return photoId;
+    public String getPhotoName() {
+        return photoName;
     }
 
-    public void setPhotoId(int photoId) {
-        this.photoId = photoId;
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
 
     public Category getCategory() {
