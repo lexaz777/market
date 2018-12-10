@@ -3,14 +3,15 @@ package ru.zakharov.market.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import ru.zakharov.market.entities.Category;
 import ru.zakharov.market.entities.Product;
 import ru.zakharov.market.searches.ProductSearch;
 import ru.zakharov.market.services.CategoryService;
+import ru.zakharov.market.services.FileSystemStorageService;
 import ru.zakharov.market.services.ProductService;
 
 import java.util.List;
@@ -21,6 +22,12 @@ import java.util.Optional;
 public class AdminController {
     private ProductService productService;
     private CategoryService categoryService;
+    private FileSystemStorageService storageService;
+
+    @Autowired
+    public void setStorageService(FileSystemStorageService storageService) {
+        this.storageService = storageService;
+    }
 
     @Autowired
     public void setProductService(ProductService productService) {
@@ -73,10 +80,19 @@ public class AdminController {
         if (category == null) {
             return "redirect:/admin/products/add";
         }
-
         productService.saveProduct(product);
         return "redirect:/admin/products/";
     }
 
-
+    @PostMapping("/products/uploadFile")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, int id) {
+        storageService.store(file);
+        Optional<Product> product = productService.getProductById(id);
+        if (product.isPresent()) {
+            Product theProduct = product.get();
+            theProduct.setPhotoName(file.getOriginalFilename());
+            productService.saveProduct(theProduct);
+        }
+        return "redirect:/admin/products/edit?id=" + id;
+    }
 }

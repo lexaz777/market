@@ -49,7 +49,7 @@
             <td th:text="${product.title}">productTitle</td>
             <td th:text="${product.description}">description</td>
             <td th:text="${product.price}">price</td>
-            <td th:text="${product.photoId}">photo</td>
+            <td><img th:src="@{'/img/' + ${product.photoName}}" style="width:240px; height:240px;"></td>
             <td th:text="${product.category.title}">category</td>
             <td th:text="${product.vendorId}">vendor</td>
             <td>
@@ -59,7 +59,6 @@
         </tr>
         </tbody>
     </table>
-
 </div>
 </body>
 </html>
