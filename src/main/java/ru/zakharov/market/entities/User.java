@@ -2,6 +2,7 @@ package ru.zakharov.market.entities;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -34,6 +35,9 @@ public class User {
 	joinColumns = @JoinColumn(name = "user_id"),
 	inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Collection<Role> roles;
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+	private List<ShopOrder> shopOrderList;
 
 	public User() {
 	}
@@ -122,7 +126,15 @@ public class User {
         this.phone = phone;
     }
 
-    @Override
+	public List<ShopOrder> getShopOrderList() {
+		return shopOrderList;
+	}
+
+	public void setShopOrderList(List<ShopOrder> shopOrderList) {
+		this.shopOrderList = shopOrderList;
+	}
+
+	@Override
 	public String toString() {
 		return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + "*********" + '\''
 				+ ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\''
