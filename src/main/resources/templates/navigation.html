@@ -30,7 +30,7 @@
                     <a class="nav-link" th:href="@{/admin}">Admin Dashboard</a>
                 </li>
                 <li class="nav-item" th:classappend="${activeTab == 'Shopping Cart' ? 'active' : ''}">
-                    <a class="nav-link" th:href="@{/cart/list}">Shopping Cart</a>
+                    <a class="nav-link" th:href="@{/cart/show}">Shopping Cart</a>
                 </li>
                 <div sec:authorize="isAuthenticated()">
                     <li class="nav-item" th:classappend="${activeTab == 'Profile' ? 'active' : ''}">

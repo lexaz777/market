@@ -25,8 +25,12 @@ public class ProductService {
         return productRepository.findProductsByTitleContains(title);
     }
 
-    public Optional<Product> getProductById(int id) {
-        return productRepository.findById(id);
+    public Product getProductById(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            return product.get();
+        }
+        return null;
     }
 
     public void saveProduct(Product product) {

@@ -48,12 +48,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasAnyRole("MANAGER", "ADMIN")
+                .antMatchers("/favicon.ico").permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/authenticateTheUser")
                 .successHandler(customAuthenticationSuccessHandler)
-                .permitAll();
+                .permitAll()
+                .and()
+                .csrf().ignoringAntMatchers("/api/**");
     }
 
     @Bean

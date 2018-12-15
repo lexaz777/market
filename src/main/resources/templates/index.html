@@ -53,8 +53,11 @@
             <td th:text="${product.category.title}">category</td>
             <td th:text="${product.vendorId}">vendor</td>
             <td>
-                <a href="scans.html"
-                   th:href="@{/cart/add(id = ${product.id})}">buy</a>
+                <!--<a th:href="@{/cart/add(id = ${product.id})}" class="buy-item">buy</a>-->
+                <div class="item" th:data="${product.id}">
+                    <button class="btn btn-primary">Add to cart</button>
+                </div>
+
             </td>
         </tr>
         </tbody>

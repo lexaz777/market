@@ -3,15 +3,14 @@ package ru.zakharov.market.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import ru.zakharov.market.entities.Product;
 import ru.zakharov.market.searches.ProductSearch;
 import ru.zakharov.market.services.ProductService;
+import ru.zakharov.market.services.ShoppingCartService;
 import ru.zakharov.market.utils.Cart;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Controller
@@ -19,6 +18,12 @@ import java.util.Optional;
 @SessionAttributes("shoppingCart")
 public class CartController {
     private ProductService productService;
+    private ShoppingCartService shoppingCartService;
+
+    @Autowired
+    public void setShoppingCartService(ShoppingCartService shoppingCartService) {
+        this.shoppingCartService = shoppingCartService;
+    }
 
     @Autowired
     public void setProductService(ProductService productService) {
@@ -28,6 +33,13 @@ public class CartController {
     @ModelAttribute(name = "shoppingCart")
     public Cart cart() {
         return new Cart();
+    }
+
+    @GetMapping("/show")
+    public String cartPage(Model model, HttpServletRequest httpServletRequest) {
+        model.addAttribute("search", new ProductSearch());
+        model.addAttribute("shoppingCart", shoppingCartService.getCurrentCart(httpServletRequest.getSession()));
+        return "cart";
     }
 
     @RequestMapping("/list")
@@ -46,12 +58,12 @@ public class CartController {
     }
 
     @RequestMapping("/add")
-    public String addToCart(@RequestParam int id, Model model,
+    public String addToCart(@RequestParam Long id, Model model,
                             @ModelAttribute("shoppingCart") Cart cart) {
         model.addAttribute("search", new ProductSearch());
-        Optional<Product> product = productService.getProductById(id);
-        if (product.isPresent()) {
-            cart.addToCart(product.get());
+        Product product = productService.getProductById(id);
+        if (product != null) {
+            cart.addToCart(product);
             if (!cart.getCartItems().isEmpty()) {
                 model.addAttribute("shoppingCart", cart);
             } else {
@@ -63,12 +75,12 @@ public class CartController {
     }
 
     @RequestMapping("/remove")
-    public String removeFromCart(@RequestParam int id, Model model,
+    public String removeFromCart(@RequestParam Long id, Model model,
                                  @ModelAttribute("shoppingCart") Cart cart) {
         model.addAttribute("search", new ProductSearch());
-        Optional<Product> product = productService.getProductById(id);
-        if (product.isPresent()) {
-            cart.removeFromCart(product.get());
+        Product product = productService.getProductById(id);
+        if (product != null) {
+            cart.removeFromCart(product);
             if (!cart.getCartItems().isEmpty()) {
                 model.addAttribute("shoppingCart", cart);
             } else {

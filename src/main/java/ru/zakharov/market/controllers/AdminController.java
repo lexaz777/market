@@ -65,11 +65,11 @@ public class AdminController {
     }
 
     @RequestMapping("/products/edit")
-    public String editProduct(Model model, @RequestParam int id) {
+    public String editProduct(Model model, @RequestParam Long id) {
         List<Category> categories = categoryService.getAllCategories();
-        Optional<Product> product = productService.getProductById(id);
-        if (!product.isPresent()) return "redirect:/admin/products";
-        model.addAttribute("product", product.get());
+        Product product = productService.getProductById(id);
+        if (product != null) return "redirect:/admin/products";
+        model.addAttribute("product", product);
         model.addAttribute("search", new ProductSearch());
         model.addAttribute("categories", categories);
         return "product-edit";
@@ -85,13 +85,12 @@ public class AdminController {
     }
 
     @PostMapping("/products/uploadFile")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, int id) {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Long id) {
         storageService.store(file);
-        Optional<Product> product = productService.getProductById(id);
-        if (product.isPresent()) {
-            Product theProduct = product.get();
-            theProduct.setPhotoName(file.getOriginalFilename());
-            productService.saveProduct(theProduct);
+        Product product = productService.getProductById(id);
+        if (product != null) {
+            product.setPhotoName(file.getOriginalFilename());
+            productService.saveProduct(product);
         }
         return "redirect:/admin/products/edit?id=" + id;
     }
