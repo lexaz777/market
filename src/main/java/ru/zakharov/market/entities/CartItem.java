@@ -64,6 +64,11 @@ public class CartItem {
         refreshSubtotal();
     }
 
+    public void setQuantity(int quantity) {
+        if (quantity < 0) return;
+        this.quantity = quantity;
+    }
+
     public void removeOneProduct() {
         if (quantity > 0) quantity--;
         refreshSubtotal();

@@ -68,7 +68,7 @@ public class AdminController {
     public String editProduct(Model model, @RequestParam Long id) {
         List<Category> categories = categoryService.getAllCategories();
         Product product = productService.getProductById(id);
-        if (product != null) return "redirect:/admin/products";
+        if (product == null) return "redirect:/admin/products";
         model.addAttribute("product", product);
         model.addAttribute("search", new ProductSearch());
         model.addAttribute("categories", categories);

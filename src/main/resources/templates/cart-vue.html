@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}"/>
+</head>
+
+<body>
+
+<div th:replace="~{navigation :: navi(Home)}"/>
+
+
+<h1>Cart page</h1>
+
+<div sec:authorize="isAuthenticated()">
+    Authenticated username:
+    <div sec:authentication="principal.username"></div>
+    Authenticated user roles:
+    <div sec:authentication="principal.authorities"></div>
+</div>
+
+<div id="app">
+
+    <table id="cart" class="table table-hover table-condensed">
+        <thead>
+        <tr>
+            <th style="width:50%">Product</th>
+            <th style="width:10%">Price</th>
+            <th style="width:8%">Quantity</th>
+            <th style="width:22%" class="text-center">Subtotal</th>
+            <th style="width:10%"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--        <tr v-for="(item, index) in items">
+                    <td>{{item.product.title}}</td>
+                    <td style="width:120px">QTY:
+                        <input v-model="item.qty" class="form-control input-qty" type="number">
+                    </td>
+                    <td class="text-right">{{item.product.price}}</td>
+                    <td>
+                        <button @click="removeItem(index)"><span class="glyphicon glyphicon-trash"></span></button>
+                    </td>
+                </tr>-->
+        <tr v-for="(item, index) in items">
+            <td data-th="Product">
+                <div class="row">
+                    <div class="col-sm-2 hidden-xs"><img :src=imagePath(index) alt="..."
+                                                         class="img-responsive" style="width:100px; height:100px;"/>
+                    </div>
+                    <div class="col-sm-10">
+                        <h4 class="nomargin">{{item.product.title}}</h4>
+                        <p>{{item.product.description}}</p>
+                    </div>
+                </div>
+            </td>
+            <td data-th="Price">{{item.product.price}}</td>
+            <td data-th="Quantity">
+                <input @click="setQty(index, item.product.id)" type="number" class="form-control text-center" v-model="item.quantity">
+            </td>
+            <td data-th="Subtotal" class="text-center">{{item.subtotal}}</td>
+            <td class="actions" data-th="">
+                <button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+                <button @click="removeItem(index, item.product.id)" class="btn btn-danger btn-sm" data-id="{{item.product.id}"><i class="fa fa-trash-o"></i>
+                </button>
+            </td>
+        </tr>
+
+        <tr v-show="items.length === 0">
+        <td colspan="4" class="text-center">Cart is empty</td>
+        </tr>
+
+        </tbody>
+        <tfoot>
+        <tr class="visible-xs">
+            <td class="text-center"><strong>Total {{totalPrice}}</strong></td>
+        </tr>
+        <tr>
+            <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a>
+            </td>
+            <td colspan="2" class="hidden-xs"></td>
+            <td class="hidden-xs text-center"><strong>Total {{totalPrice}}</strong></td>
+            <td>
+                <form th:action="@{/order/create}">
+                    <button class="btn btn-success btn-block" type="submit">Checkout <i
+                            class="fa fa-angle-right"></i></button>
+                </form>
+
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue"></script>
+<script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>

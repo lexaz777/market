@@ -5,16 +5,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/main.js}"></script>
     <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}"/>
 </head>
 
 <body>
 
-<div th:replace="~{navigation :: navi(Home)}" />
+<div th:replace="~{navigation :: navi(Home)}"/>
 
 <div class="container">
     <h1>Welcome page</h1>
@@ -57,11 +55,14 @@
                 <div class="item" th:data="${product.id}">
                     <button class="btn btn-primary">Add to cart</button>
                 </div>
-
             </td>
         </tr>
         </tbody>
     </table>
 </div>
+<script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+<script src="https://unpkg.com/vue"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
 </body>
 </html>

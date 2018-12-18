@@ -72,3 +72,17 @@ body {
         display: block;
     }
 }
+
+.container{
+  padding:20px;
+  max-width: 90%;
+}
+
+.input-qty {
+  width: 60px;
+  float: right
+}
+
+.table-cart > tr > td {
+  vertical-align: middle !important;
+}

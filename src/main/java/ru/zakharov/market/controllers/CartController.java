@@ -42,6 +42,13 @@ public class CartController {
         return "cart";
     }
 
+    @GetMapping("/show-vue")
+    public String vueCartPage(Model model, HttpServletRequest httpServletRequest) {
+        model.addAttribute("search", new ProductSearch());
+        model.addAttribute("shoppingCart", shoppingCartService.getCurrentCart(httpServletRequest.getSession()));
+        return "cart-vue";
+    }
+
     @RequestMapping("/list")
     public String listCart(Model model,
                            @ModelAttribute("shoppingCart") Cart cart) {

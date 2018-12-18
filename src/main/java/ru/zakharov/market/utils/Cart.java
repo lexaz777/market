@@ -27,7 +27,7 @@ public class Cart {
         refreshTotalPrice();
     }
 
-    public void removeFromCart(Product product) {
+/*    public void removeFromCart(Product product) {
         int quantity = 0;
         CartItem cartItem = new CartItem(product);
         int index = cartItems.indexOf(cartItem);
@@ -38,6 +38,20 @@ public class Cart {
         else
             cartItems.remove(cartItem);
         refreshTotalPrice();
+    }*/
+
+    public void removeFromCart(Product product) {
+        int quantity = 0;
+        CartItem cartItem = new CartItem(product);
+        int index = cartItems.indexOf(cartItem);
+        if (index != -1) cartItems.remove(cartItem);
+        refreshTotalPrice();
+    }
+
+    public void setQuantity(Product product, int quantity) {
+        CartItem cartItem = new CartItem(product);
+        int index = cartItems.indexOf(cartItem);
+        cartItems.get(index).setQuantity(quantity);
     }
 
     public List<CartItem> getCartItems() {
