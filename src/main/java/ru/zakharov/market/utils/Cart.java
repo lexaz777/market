@@ -52,6 +52,7 @@ public class Cart {
         CartItem cartItem = new CartItem(product);
         int index = cartItems.indexOf(cartItem);
         cartItems.get(index).setQuantity(quantity);
+        refreshTotalPrice();
     }
 
     public List<CartItem> getCartItems() {
