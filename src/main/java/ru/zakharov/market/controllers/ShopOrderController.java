@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.zakharov.market.entities.ShopOrder;
 import ru.zakharov.market.entities.User;
 import ru.zakharov.market.searches.ProductSearch;
+import ru.zakharov.market.services.EmailService;
 import ru.zakharov.market.services.ShopOrderService;
 import ru.zakharov.market.services.UserService;
 import ru.zakharov.market.utils.Cart;
@@ -24,6 +25,12 @@ import ru.zakharov.market.utils.Cart;
 public class ShopOrderController {
     private ShopOrderService shopOrderService;
     private UserService userService;
+    private EmailService emailService;
+
+    @Autowired
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
+    }
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -62,6 +69,7 @@ public class ShopOrderController {
         shopOrder = shopOrderService.save(shopOrder);
         ShopOrder theShopOrder = shopOrderService.getShopOrderById(shopOrder.getId());
         model.addAttribute("shopOrder", theShopOrder);
+        emailService.sendSimpleMessage("vh1@mail.ru", "order: " + theShopOrder.getId(), "complete:" + theShopOrder.getCartItemList().toString());
         return "ordercomplete";
     }
 }
