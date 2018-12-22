@@ -1,5 +1,6 @@
 package ru.zakharov.market.controllers;
 
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,9 @@ import ru.zakharov.market.services.EmailService;
 import ru.zakharov.market.services.ShopOrderService;
 import ru.zakharov.market.services.UserService;
 import ru.zakharov.market.utils.Cart;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
 
 
 @Controller
@@ -69,7 +73,15 @@ public class ShopOrderController {
         shopOrder = shopOrderService.save(shopOrder);
         ShopOrder theShopOrder = shopOrderService.getShopOrderById(shopOrder.getId());
         model.addAttribute("shopOrder", theShopOrder);
-        emailService.sendSimpleMessage("vh1@mail.ru", "order: " + theShopOrder.getId(), "complete:" + theShopOrder.getCartItemList().toString());
+        try {
+            emailService.sendSimpleMessage("vh1@mail.ru", theShopOrder);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
         return "ordercomplete";
     }
 }
