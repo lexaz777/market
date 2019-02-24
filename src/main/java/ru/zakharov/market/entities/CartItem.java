@@ -1,5 +1,7 @@
 package ru.zakharov.market.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -22,6 +24,7 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "shop_order_id")
+    @JsonBackReference
     private ShopOrder shopOrder;
 
     public CartItem(Product product, int quantity) {

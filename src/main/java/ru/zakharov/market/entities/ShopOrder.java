@@ -2,15 +2,16 @@ package ru.zakharov.market.entities;
 
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
-import ru.zakharov.market.utils.Cart;
+
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "shop_order")
 @Data
-public class ShopOrder {
+public class ShopOrder implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +22,7 @@ public class ShopOrder {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<CartItem> cartItemList;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
     @Column(name = "address")

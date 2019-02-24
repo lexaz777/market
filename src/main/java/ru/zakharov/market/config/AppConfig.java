@@ -6,12 +6,14 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Import;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import ru.zakharov.market.formatters.CategoryFormatter;
+import ru.zakharov.market.jms.JmsConfig;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 @EnableConfigurationProperties(StorageProperties.class)
 @EnableAspectJAutoProxy
 @ComponentScan("ru.zakharov.market.aop")
+@Import(JmsConfig.class)
 public class AppConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         if (!registry.hasMappingForPattern("/webjars/**")) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import ru.zakharov.market.entities.ShopOrder;
 import ru.zakharov.market.entities.User;
+import ru.zakharov.market.jms.JmsService;
 import ru.zakharov.market.searches.ProductSearch;
 import ru.zakharov.market.services.EmailService;
 import ru.zakharov.market.services.ShopOrderService;
@@ -30,6 +31,12 @@ public class ShopOrderController {
     private ShopOrderService shopOrderService;
     private UserService userService;
     private EmailService emailService;
+    private JmsService jmsService;
+
+    @Autowired
+    public void setJmsService(JmsService jmsService) {
+        this.jmsService = jmsService;
+    }
 
     @Autowired
     public void setEmailService(EmailService emailService) {
@@ -73,6 +80,7 @@ public class ShopOrderController {
         shopOrder = shopOrderService.save(shopOrder);
         ShopOrder theShopOrder = shopOrderService.getShopOrderById(shopOrder.getId());
         model.addAttribute("shopOrder", theShopOrder);
+        jmsService.sendShopOrder(theShopOrder);
         try {
             emailService.sendSimpleMessage("vh1@mail.ru", theShopOrder);
         } catch (MessagingException e) {
