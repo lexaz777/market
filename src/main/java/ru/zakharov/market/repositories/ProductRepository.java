@@ -10,5 +10,5 @@ import java.util.List;
 public interface ProductRepository extends CrudRepository<Product, Long> {
     List<Product> findAll();
     List<Product> findProductsByTitleContains(String title);
-
+    public List<Product> findProductsByPriceBetween(int min,int max);
 }
