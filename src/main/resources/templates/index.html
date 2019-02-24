@@ -15,8 +15,6 @@
 <div th:replace="~{navigation :: navi(Home)}"/>
 
 <div class="container">
-    <h1>Welcome page</h1>
-
     <div sec:authorize="isAuthenticated()">
         Authenticated username:
         <div sec:authentication="principal.username"></div>
@@ -29,6 +27,11 @@
         This content will only be visible to users who have the "supervisor" authority in their list of <tt>GrantedAuthority</tt>s.
     </div>
 
+    <form th:action="@{/filter}" th:method="GET" th:object="${filter}">
+        <input th:field="*{minPrice}" th:type="text" th:placeholder="'Min Price'" title="Min Price">
+        <input th:field="*{maxPrice}" th:type="text" th:placeholder="'Max Price'" title="Max Price">
+        <button th:type="submit">Filter</button>
+    </form>
     <table class="table-bordered table-hover">
         <thead>
         <tr>

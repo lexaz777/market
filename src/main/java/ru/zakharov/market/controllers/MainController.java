@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.zakharov.market.entities.Product;
+import ru.zakharov.market.searches.FilterByPrice;
 import ru.zakharov.market.searches.ProductSearch;
 import ru.zakharov.market.services.ProductService;
 
@@ -25,6 +26,17 @@ public class MainController {
     public String showHomePage(Model model) {
         List<Product> productList = productService.getAllProducts();
         model.addAttribute("productList", productList);
+        model.addAttribute("filter",new FilterByPrice());
+        model.addAttribute("search", new ProductSearch());
+        return "index";
+    }
+
+    @RequestMapping("/filter")
+    public String filterByPrice(Model model, @ModelAttribute FilterByPrice filterByPrice) {
+        List<Product> productList =
+                productService.getProductsByPriceRange(filterByPrice.getMinPrice(), filterByPrice.getMaxPrice());
+        model.addAttribute("productList", productList);
+        model.addAttribute("filter",new FilterByPrice());
         model.addAttribute("search", new ProductSearch());
         return "index";
     }
